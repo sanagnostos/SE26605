@@ -6,3 +6,7 @@ hi<?php
  * Time: 9:58 AM
  */
 
+$first = "Steven";
+$last = "Anagnostos";
+
+echo "$first $last";
