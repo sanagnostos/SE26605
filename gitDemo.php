@@ -9,4 +9,5 @@ hi<?php
 $first = "Steven";
 $last = "Anagnostos";
 
-echo "$first $last";
+echo "$first $last<br />";
+echo $first . " " . $last;
