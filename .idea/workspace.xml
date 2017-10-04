@@ -24,16 +24,16 @@
       <file leaf-file-name="colorGrid.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/colorGrid.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-279">
-              <caret line="2" column="53" lean-forward="false" selection-start-line="2" selection-start-column="53" selection-end-line="2" selection-end-column="53" />
+            <state relative-caret-position="748">
+              <caret line="44" column="57" lean-forward="false" selection-start-line="44" selection-start-column="57" selection-end-line="44" selection-end-column="57" />
               <folding>
-                <marker date="1507128384358" expanded="true" signature="1046:1070" ph="..." />
-                <marker date="1507128384358" expanded="true" signature="1107:1114" ph="..." />
-                <marker date="1507128384358" expanded="true" signature="1107:1121" ph="..." />
-                <marker date="1507128384358" expanded="true" signature="1250:1361" ph="..." />
-                <marker date="1507128384358" expanded="true" signature="1257:1276" ph="..." />
-                <marker date="1507128384358" expanded="true" signature="1257:1317" ph="..." />
-                <marker date="1507128384358" expanded="true" signature="1324:1353" ph="..." />
+                <marker date="1507128547602" expanded="true" signature="1166:1190" ph="..." />
+                <marker date="1507128547602" expanded="true" signature="1227:1234" ph="..." />
+                <marker date="1507128547602" expanded="true" signature="1227:1241" ph="..." />
+                <marker date="1507128547602" expanded="true" signature="1370:1481" ph="..." />
+                <marker date="1507128547602" expanded="true" signature="1377:1396" ph="..." />
+                <marker date="1507128547602" expanded="true" signature="1377:1437" ph="..." />
+                <marker date="1507128547602" expanded="true" signature="1444:1473" ph="..." />
               </folding>
             </state>
           </provider>
@@ -129,12 +129,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1507124813877</updated>
-      <workItem from="1507124815823" duration="3611000" />
+      <workItem from="1507124815823" duration="3729000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3611000" />
+    <option name="totallyTimeSpent" value="3729000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="281" y="10" width="1400" height="1000" extended-state="0" />
@@ -196,16 +196,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/colorGrid.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-279">
-          <caret line="2" column="53" lean-forward="false" selection-start-line="2" selection-start-column="53" selection-end-line="2" selection-end-column="53" />
+        <state relative-caret-position="748">
+          <caret line="44" column="57" lean-forward="false" selection-start-line="44" selection-start-column="57" selection-end-line="44" selection-end-column="57" />
           <folding>
-            <marker date="1507128384358" expanded="true" signature="1046:1070" ph="..." />
-            <marker date="1507128384358" expanded="true" signature="1107:1114" ph="..." />
-            <marker date="1507128384358" expanded="true" signature="1107:1121" ph="..." />
-            <marker date="1507128384358" expanded="true" signature="1250:1361" ph="..." />
-            <marker date="1507128384358" expanded="true" signature="1257:1276" ph="..." />
-            <marker date="1507128384358" expanded="true" signature="1257:1317" ph="..." />
-            <marker date="1507128384358" expanded="true" signature="1324:1353" ph="..." />
+            <marker date="1507128547602" expanded="true" signature="1166:1190" ph="..." />
+            <marker date="1507128547602" expanded="true" signature="1227:1234" ph="..." />
+            <marker date="1507128547602" expanded="true" signature="1227:1241" ph="..." />
+            <marker date="1507128547602" expanded="true" signature="1370:1481" ph="..." />
+            <marker date="1507128547602" expanded="true" signature="1377:1396" ph="..." />
+            <marker date="1507128547602" expanded="true" signature="1377:1437" ph="..." />
+            <marker date="1507128547602" expanded="true" signature="1444:1473" ph="..." />
           </folding>
         </state>
       </provider>
