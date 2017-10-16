@@ -20,7 +20,7 @@ try{
     if ($_GET['submit'] == "Do it"){
         $name = $_GET['name'] ?? "";
         $gender = $_GET['gender'] ?? "";
-        $fixed = $_GET['fixed'] ?? "";
+        $fixed = $_GET['fixed'] ?? false;
 
         $sql = $db->prepare("INSERT INTO dogs VALUES (null, :name, :gender, :fixed)");//set placeholder
 
@@ -45,14 +45,14 @@ try{
     <input type="text" name="name" value="" /><br />
     <input type="radio" name="gender" value="m" /><br />
     <input type="radio" name="gender" value="f" /><br />
-    <input type="checkbox" name="fixed" value="Y" /><br />
+    <input type="checkbox" name="fixed" value="true" /><br />
     <input type="submit" id="foo" name="submit" value="Do it" />
 </form>
 
 <?php
     $sql = "SELECT * FROM dogs";
     $sql->execute();
-    $results = $sql->fetchAll();
+    $results = $sql->fetchAll(PDO::FETCH_ASSOC);
     if(count($results)){
         foreach ($results as $dog){
             print_r($dog);
