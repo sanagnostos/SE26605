@@ -32,6 +32,19 @@ function getActorsAsTable($db){
     }
     
     function addActor($db, $firstName, $lastName, $dob, $height){
+        try {
+            $sql = $db->prepare("INSERT INTO actors VALUES (null, :firstName, :lastName, :dob, :height)"); //sets placeholder
 
+            //binding variables to placeholders
+            $sql->bindParam(':firstName, $firstName');
+            $sql->bindParam(':lastName, $lastName');
+            $sql->bindParam(':dob, $height');
+            $sql->bindParam(':height, $height');
+
+            $sql->execute();
+            return $sql->rowCount() . " rows inserted";
+        }catch(PDOException $e){
+            die("There was a problem adding the data");
+        }
     }
 }
