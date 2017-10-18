@@ -8,9 +8,9 @@
 
 ?>
 <form method="post" action="#">
-    Name: <input type="text" name="name" value="" /><br />
+    Name: <input type="text" name="name" value="<?php $dog ['name']; ?>" /><br />
     Male: <input type="radio" name="gender" value="m" /><br />
     Female: <input type="radio" name="gender" value="f" /><br />
     Fixed: <input type="checkbox" name="fixed" value="true" /><br />
-    <input type="submit" id="foo" name="submit" value="Add" />
+    <input type="submit" id="foo" name="submit" value="<?php echo $button; ?>" />
 </form>
