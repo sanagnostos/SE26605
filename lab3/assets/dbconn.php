@@ -2,9 +2,10 @@
 /**
  * Created by PhpStorm.
  * User: 001432637
- * Date: 10/18/2017
- * Time: 10:05 AM
+ * Date: 10/23/2017
+ * Time: 7:44 AM
  */
+
 function dbConn()
 {
 
@@ -22,4 +23,3 @@ function dbConn()
         die("You could not connect to the database.");
     }
 }
-?>
