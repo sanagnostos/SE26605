@@ -8,6 +8,7 @@
 
 function getCorpsAsTable($db)
 {
+
     try {
         $sql = "SELECT * FROM corps";
         $sql = $db->prepare($sql);
@@ -23,6 +24,7 @@ function getCorpsAsTable($db)
                 $table .= "<td><a href='?action=Delete&id=" . $corp['id'] . "'>Delete</a>";
                 $table .= "</tr>";
             }
+            $table .= "<a href='/lab3/assets/create.php'>" . 'Add' . "</a>";
             $table .= "</table>" . PHP_EOL;
             return $table;
 
@@ -34,8 +36,9 @@ function getCorpsAsTable($db)
         die("There was a problem getting the data");
     }
 }
-    function addCorp($db, $corp, $date, $email, $zip, $owner, $phone){
-        try{
+    function addCorp($db){
+
+    try{
             $sql = $db->prepare("INSERT INTO corps VALUES (null, :corp, now(), :email, :zip, :owner, :phone)");
 
             $sql->bindParam(':corp, $corp');
@@ -46,7 +49,7 @@ function getCorpsAsTable($db)
             $sql->bindParam(':phone, $phone');
 
             $sql->execute();
-            return $sql->rowCount() . " row successfully added";
+            echo $sql->rowCount() . " row successfully added";
 
         }catch(PDOException $e){
             die("There was a problem adding the data");
@@ -54,6 +57,7 @@ function getCorpsAsTable($db)
 
     }
     function readCorp($db, $id){
+
 
         try{
         $sql = $db->prepare("SELECT * FROM corps WHERE id = :id");
@@ -75,4 +79,4 @@ function getCorpsAsTable($db)
             die("Error");
         }
     }
-
+?>

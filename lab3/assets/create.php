@@ -11,19 +11,20 @@
     Zip Code: <input type="text" name="zip" value=""><br />
     Owner: <input type="text" name="owner" value=""><br />
     Phone Number: <input type="text" name="phone" value=""><br />
-    <input type="submit" id="foo" name="action" value="Submit" />
-    <input type="submit" id="fooy" name="action" value="Back" />
+    <a href="/lab3/corpIndex.php">View All</a>
+    <input type="hidden" value="<?php echo $id; ?>" name="id" />
+    <input type="Submit" value="Submit" />
+
 </form>
 <?php
+require_once("dbconn.php");
+include("corps.php");
 
 $db = dbConn();
-$action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING) ?? "";
-switch($action){
+$action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING) ?? filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING) ?? "";
+switch($action) {
     case"Submit":
-        addCorp($db, $corp, now(), $email, $zip, $owner, $phone);
+        echo addCorp($db);
         break;
-    case"Back":
-        header('http://localhost/lab3/corpIndex.php');
-
 }
 ?>
