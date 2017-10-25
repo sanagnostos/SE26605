@@ -20,9 +20,10 @@ $db = dbConn();
 $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING) ?? "";
 switch($action){
     case"Submit":
-        addCorp($db, $corp, $date, $email, $zip, $owner, $phone);
+        addCorp($db, $corp, now(), $email, $zip, $owner, $phone);
         break;
     case"Back":
-        header('http://localhost:63342/htdocs/lab3/corpIndex.php');
+        header('http://localhost/lab3/corpIndex.php');
+
 }
 ?>

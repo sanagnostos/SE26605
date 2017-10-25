@@ -18,9 +18,9 @@ function getCorpsAsTable($db)
             $table = "<table>" . PHP_EOL;
             foreach ($corps as $corp) {
                 $table .= "<tr><td>" . $corp['corp'] . "</td>";
-                $table .= "<td><form method='post' action='/lab3/corpIndex.php'><input type='hidden' name='id' value='" . $corp['id'] . "' /><input type='submit' name='action' value='Read' /></form></td>";
-                $table .= "<td><form method='post' action='/lab3/corpIndex.php'><input type='hidden' name='id' value='" . $corp['id'] . "' /><input type='submit' name='action' value='Update' /></form></td>";
-                $table .= "<td><form method='post' action='/lab3/corpIndex.php'><input type='hidden' name='id' value='" . $corp['id'] . "' /><input type='submit' name='action' value='Delete' /></form></td>";
+                $table .= "<td><a href='?action=Read&id=" . $corp['id'] . "'>Read</a>";
+                $table .= "<td><a href='?action=Update&id=" . $corp['id'] . "'>Update</a>";
+                $table .= "<td><a href='?action=Delete&id=" . $corp['id'] . "'>Delete</a>";
                 $table .= "</tr>";
             }
             $table .= "</table>" . PHP_EOL;
@@ -36,9 +36,7 @@ function getCorpsAsTable($db)
 }
     function addCorp($db, $corp, $date, $email, $zip, $owner, $phone){
         try{
-            $sql = $db->prepare("INSERT INTO corps VALUES (null, :corp, :date, :email, :zip, :owner, :phone)");
-
-            $date = now();
+            $sql = $db->prepare("INSERT INTO corps VALUES (null, :corp, now(), :email, :zip, :owner, :phone)");
 
             $sql->bindParam(':corp, $corp');
             $sql->bindParam(':date, $date');
@@ -56,26 +54,23 @@ function getCorpsAsTable($db)
 
     }
     function readCorp($db, $id){
+
         try{
         $sql = $db->prepare("SELECT * FROM corps WHERE id = :id");
         $sql->bindParam(':id', $id, PDO::PARAM_INT);
         $sql->execute();
 
-        $row = $sql->fetchAll(PDO::FETCH_ASSOC);
-        if($sql->rowCount()>0) {
-            $table = "<table>" . PHP_EOL;
-
-            $table .= "<tr><td>" . $row['corp'] . "</td>";
-            $table .= "<td>" . $row['incorp_dt'] . "</td>";
-            $table .= "<td>" . $row['email'] . "</td>";
-            $table .= "<td>" . $row['zipcode'] . "</td>";
-            $table .= "<td>" . $row['owner'] . "</td>";
-            $table .= "<td>" . $row['phone'] . "</td>";
-            $table .= "</tr>";
-
-            $table .= "</table>" . PHP_EOL;
-            return $table;
-        }
+        $row = $sql->fetch(PDO::FETCH_ASSOC);
+        $table="<table>";
+        $table .= "<tr><td>" . $row['corp'];
+        $table .= "</td><td>" . $row['incorp_dt'];
+        $table .= "</td><td>" . $row['email'];
+        $table .= "</td><td>" . $row['zipcode'];
+        $table .= "</td><td>" . $row['owner'];
+        $table .= "</td><td>" . $row['phone'];
+        $table .= "</td></tr>";
+        $table .= "</table>" . PHP_EOL;
+        echo $table;
         }catch(PDOException $e){
             die("Error");
         }

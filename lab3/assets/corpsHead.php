@@ -18,9 +18,7 @@
 <body>
 <header>
     <nav>
-        <form method="get" action="#">
-            <input type="submit" name="addBtn" value="Add">
-        </form>
+
     </nav>
 </header>
 <section>
