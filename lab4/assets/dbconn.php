@@ -2,11 +2,11 @@
 /**
  * Created by PhpStorm.
  * User: 001432637
- * Date: 10/23/2017
- * Time: 7:44 AM
+ * Date: 11/1/2017
+ * Time: 10:13 AM
  */
 
-function dbConn()
+function dbconn()
 {
 
     $dsn = "mysql:host=localhost;dbname=phpclassfall2017";

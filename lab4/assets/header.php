@@ -2,11 +2,10 @@
 /**
  * Created by PhpStorm.
  * User: 001432637
- * Date: 10/18/2017
- * Time: 10:05 AM
+ * Date: 11/1/2017
+ * Time: 10:37 AM
  */
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,12 +13,14 @@
     <title>Title</title>
     <!-- css links here -->
     <!-- JS links here -->
-    <h1>Corporations</h1>
+
 </head>
 <body>
 <header>
     <nav>
-
+        <a href="/lab4/index.php">Home</a>
+        <a href="/lab4/assets/view.php">View</a>
+        <a href="/lab4/assets/add.php">Add</a>
     </nav>
 </header>
 <section>
