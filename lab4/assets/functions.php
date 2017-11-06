@@ -19,11 +19,9 @@ function getCorpsAsTable($db){
             $table = "<table>" . PHP_EOL;
             foreach ($corps as $corp){
                 $table .= "<tr><td>" . $corp['corp'] . "</td>";
-                $table .= "<td>" . $corp['incorp_dt'] . "</td>";
-                $table .= "<td>" . $corp['email'] . "</td>";
-                $table .= "<td>" . $corp['zipcode'] . "</td>";
-                $table .= "<td>" . $corp['owner'] . "</td>";
-                $table .= "<td>" . $corp['phone'] . "</td>";
+                $table .= "<td><a href='?action=Read&id=" . $corp['id'] . "'>Read</a>";
+                $table .= "<td><a href='?action=Update&id=" . $corp['id'] . "'>Update</a>";
+                $table .= "<td><a href='?action=Delete&id=" . $corp['id'] . "'>Delete</a>";
                 $table .= "</tr>";
             }
             $table .= "</table>" . PHP_EOL;
@@ -38,23 +36,27 @@ function getCorpsAsTable($db){
 
 }
 
-//add a record function -- gets data from form on add page
-function addCorp($db, $corp, $email, $zipcode, $owner, $phone){
-
+function readRecord($db, $id){
     try{
-        $sql = $db->prepare("INSERT INTO corps VALUES (null, :corp, NOW(), :email, :zipcode, :owner, :phone)");
-
-        $sql->bindParam(':corp', $corp);
-        $sql->bindParam(':email', $email);
-        $sql->bindParam(':zipcode', $zipcode);
-        $sql->bindParam(':owner', $owner);
-        $sql->bindParam(':phone', $phone);
-
+        $sql = $db->prepare("SELECT * FROM corps WHERE id = :id");
+        $sql->bindParam(':id', $id, PDO::PARAM_INT);
         $sql->execute();
-        return $sql->rowCount() . " row successfully added";
+
+        $row = $sql->fetch(PDO::FETCH_ASSOC);
+        $table="<table>";
+        $table .= "<tr><td>" . $row['corp'];
+        $table .= "</td><td>" . $row['incorp_dt'];
+        $table .= "</td><td>" . $row['email'];
+        $table .= "</td><td>" . $row['zipcode'];
+        $table .= "</td><td>" . $row['owner'];
+        $table .= "</td><td>" . $row['phone'];
+        $table .= "</td></tr>";
+        $table .= "</table>" . PHP_EOL;
+        echo $table;
 
     }catch(PDOException $e){
-        die("There was a problem adding the data");
+        die("There was an error finding the data for this record");
     }
+
 
 }
