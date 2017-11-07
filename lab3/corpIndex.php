@@ -34,6 +34,10 @@ switch($action){
     case "Update":
         echo updateCorp($db, $corp, $email, $zipcode, $owner, $phone);
         break;
+    case "Sort":
+        break;
+    case "Search":
+        break;
     default:
         echo getCorpsAsTable($db);
 

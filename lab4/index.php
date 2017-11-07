@@ -7,8 +7,8 @@
  */
 
 require_once("assets/dbconn.php");
-require_once("assets/functions.php");
-require_once("assets/header.php");
+include("assets/functions.php");
+include("assets/header.php");
 
 
 $db = dbconn();
@@ -29,13 +29,13 @@ switch($action){
         echo readRecord($db, $id);
         echo "<a href='/lab4/Index.php'>" . 'View All' . "</a>";
         break;
-    /*case "Delete":
-        echo delCorp($db, $id);
-        echo "<a href='/lab3/corpIndex.php'>" . 'View All' . "</a>";
+    case "Delete":
+        echo delRecord($db, $id);
+        echo "<a href='/lab4/Index.php'>" . 'View All' . "</a>";
         break;
     case "Update":
-        echo updateCorp($db, $corp, $email, $zipcode, $owner, $phone);
-        break;*/
+        echo upRecord($db, $corp, $email, $zipcode, $owner, $phone);
+        break;
     default:
         echo getCorpsAsTable($db);
 

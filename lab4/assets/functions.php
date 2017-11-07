@@ -54,9 +54,71 @@ function readRecord($db, $id){
         $table .= "</table>" . PHP_EOL;
         echo $table;
 
-    }catch(PDOException $e){
+    }catch(PDOException $e) {
         die("There was an error finding the data for this record");
     }
+}
+function delRecord($db, $id){
+    try {
+
+        $sql = $db->prepare("DELETE FROM corps WHERE id = :id");
+        $sql->bindParam(':id', $id, PDO::PARAM_INT);
+        $sql->execute();
+
+        echo "Record number " . $id . " was deleted successfully.";
+    } catch (PDOException $e) {
+        die("Could not delete the data");
+    }
+}
+function upRecord($db, $id)
+{
+
+    if (isPostRequest()) {
+
+        $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING) ?? "";
+        $corp = filter_input(INPUT_POST, 'corp', FILTER_SANITIZE_STRING) ?? "";
+        // $incorp_dt = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING) ?? "";
+        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING) ?? "";
+        $zipcode = filter_input(INPUT_POST, 'zipcode', FILTER_SANITIZE_STRING) ?? "";
+        $owner = filter_input(INPUT_POST, 'owner', FILTER_SANITIZE_STRING) ?? "";
+        $phone = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_STRING) ?? "";
+
+        $sql = $db->prepare("UPDATE corps set $corp = :corp, $email = :email, $zipcode = :zipcode, $owner = :owner, $phone = :phone where id = :id");
+
+        $sql->bindParam(':corp', $corp);
+        $sql->bindParam(':email', $email);
+        $sql->bindParam(':zipcode', $zipcode);
+        $sql->bindParam(':owner', $owner);
+        $sql->bindParam(':phone', $phone);
+
+        $sql->execute();
+
+        if ($sql->execute() && $sql->rowCount() > 0) {
+            $result = 'Record updated';
+        }
+    } else {
+        $id = filter_input(INPUT_GET, 'id');
+        $sql = $db->prepare("SELECT * FROM corps where id = :id");
+        $sql->bindParam(':id', $id, PDO::PARAM_INT);
+        $sql->execute();
+        if ($sql->execute() && $sql->rowCount() > 0) {
+            $results = $sql->fetch(PDO::FETCH_ASSOC);
+        }
+        if (!isset($id)) {
+            die('Record not found');
+        }
+
+    }
+}
+
+function searchRecord($db){
+
+
+
+
+}
+
+function sort($db){
 
 
 }
