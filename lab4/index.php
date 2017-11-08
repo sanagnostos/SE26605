@@ -34,7 +34,8 @@ switch($action){
         echo "<a href='/lab4/Index.php'>" . 'View All' . "</a>";
         break;
     case "Update":
-        echo upRecord($db, $corp, $email, $zipcode, $owner, $phone);
+        upForm($db, $id);
+        //echo upRecord($db, $corp, $email, $zipcode, $owner, $phone);
         break;
     default:
         echo getCorpsAsTable($db);

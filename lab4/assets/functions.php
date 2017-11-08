@@ -70,12 +70,39 @@ function delRecord($db, $id){
         die("Could not delete the data");
     }
 }
+function upForm($db, $id){
+    $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING) ?? "";
+
+    $sql = $db->prepare("SELECT * FROM corps WHERE id = :id");
+    $sql->bindParam(':id', $id, PDO::PARAM_INT);
+    $sql->execute();
+
+    $row = $sql->fetch(PDO::FETCH_ASSOC);
+
+    ?>
+    <form method="get" action="#">
+        Corporation: <input type="text" name="corp" value="<?php  $row['corp'] ?>"><br />
+        Email: <input type="text" name="email" value="<?php  $row['email'] ?>"><br />
+        Zip Code: <input type="text" name="zipcode" value="<?php  $row['zip'] ?>"><br />
+        Owner: <input type="text" name="owner" value="<?php  $row['owner'] ?>"><br />
+        Phone Number: <input type="text" name="phone" value="<?php  $row['phone'] ?>"><br />
+        <input type="submit" name="action" value="Update" />
+        <a href="/lab3/corpIndex.php">View All</a>
+
+    </form>
+
+    <?php
+    switch($action){
+        case "Update":
+            upRecord($db, $id);
+            break;
+    }
+}
 function upRecord($db, $id)
 {
-
     if (isPostRequest()) {
 
-        $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING) ?? "";
+
         $corp = filter_input(INPUT_POST, 'corp', FILTER_SANITIZE_STRING) ?? "";
         // $incorp_dt = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING) ?? "";
         $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING) ?? "";
@@ -110,8 +137,10 @@ function upRecord($db, $id)
 
     }
 }
-
-function searchRecord($db){
+function isPostRequest() {
+    return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST' );
+}
+/*function searchRecord($db){
 
 
 
@@ -121,4 +150,4 @@ function searchRecord($db){
 function sort($db){
 
 
-}
+}*/
