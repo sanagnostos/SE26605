@@ -27,16 +27,13 @@ switch($action){
         echo readCorp($db, $id);
         echo "<a href='/lab3/corpIndex.php'>" . 'View All' . "</a>";
         break;
+
     case "Delete":
         echo delCorp($db, $id);
         echo "<a href='/lab3/corpIndex.php'>" . 'View All' . "</a>";
         break;
     case "Update":
         echo updateCorp($db, $corp, $email, $zipcode, $owner, $phone);
-        break;
-    case "Sort":
-        break;
-    case "Search":
         break;
     default:
         echo getCorpsAsTable($db);

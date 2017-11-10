@@ -7,22 +7,18 @@
  */
 
 require_once("assets/dbconn.php");
-include("assets/functions.php");
-include("assets/header.php");
+require_once("assets/functions.php");
+include_once("assets/header.php");
 
 
 $db = dbconn();
-
-//sanitize strings follow
-$action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING) ?? "";
+?><a href="assets/addForm.php">Create</a><?php
+$action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING) ?? filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING) ?? NULL;
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING) ?? "";
-$corp = filter_input(INPUT_POST, 'corp', FILTER_SANITIZE_STRING) ?? "";
-$incorp_dt = filter_input(INPUT_POST, 'incorp_dt', FILTER_SANITIZE_STRING ?? "");
-$email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING) ?? "";
-$zipcode = filter_input(INPUT_POST, 'zipcode', FILTER_SANITIZE_STRING) ?? "";
-$owner = filter_input(INPUT_POST, 'owner', FILTER_SANITIZE_STRING) ?? "";
-$phone = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_STRING) ?? "";
-
+$col = filter_input(INPUT_GET, 'col', FILTER_SANITIZE_STRING) ?? "";
+$term = filter_input(INPUT_GET, 'term', FILTER_SANITIZE_STRING) ?? "";
+$ASC = filter_input(INPUT_GET, 'ASC', FILTER_VALIDATE_BOOLEAN) ?? "";
+$DESC = filter_input(INPUT_GET, 'DESC', FILTER_VALIDATE_BOOLEAN) ?? "";
 switch($action){
 
     case "Read":
@@ -35,7 +31,14 @@ switch($action){
         break;
     case "Update":
         upForm($db, $id);
-        //echo upRecord($db, $corp, $email, $zipcode, $owner, $phone);
+        $button = "Update";
+        break;
+    case "sort":
+        sortRecords($db, $col, $ASC, $DESC);
+        break;
+    case "search":
+        echo searchRecord($db, $col, $term);
+        echo "<a href='/lab4/Index.php'>" . 'View All' . "</a>";
         break;
     default:
         echo getCorpsAsTable($db);

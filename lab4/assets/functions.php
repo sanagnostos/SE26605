@@ -58,6 +58,25 @@ function readRecord($db, $id){
         die("There was an error finding the data for this record");
     }
 }
+function addRecord($db, $corp, $email, $zipcode, $owner, $phone){
+
+    try{
+        $sql = $db->prepare("INSERT INTO corps VALUES (null, :corp, NOW(), :email, :zipcode, :owner, :phone)");
+
+        $sql->bindParam(':corp', $corp);
+        $sql->bindParam(':email', $email);
+        $sql->bindParam(':zipcode', $zipcode);
+        $sql->bindParam(':owner', $owner);
+        $sql->bindParam(':phone', $phone);
+
+        $sql->execute();
+        return $sql->rowCount() . " record successfully added";
+
+    }catch(PDOException $e){
+        die("There was a problem adding the data");
+    }
+
+}
 function delRecord($db, $id){
     try {
 
@@ -71,58 +90,69 @@ function delRecord($db, $id){
     }
 }
 function upForm($db, $id){
-    $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING) ?? "";
+    $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING) ?? filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING) ?? NULL;
+    //$corp = filter_input(INPUT_POST, 'corp', FILTER_SANITIZE_STRING) ?? "";
+    // $incorp_dt = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING) ?? "";
+    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING) ?? "";
+    $zipcode = filter_input(INPUT_POST, 'zipcode', FILTER_SANITIZE_STRING) ?? "";
+    $owner = filter_input(INPUT_POST, 'owner', FILTER_SANITIZE_STRING) ?? "";
+    $phone = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_STRING) ?? "";
+
 
     $sql = $db->prepare("SELECT * FROM corps WHERE id = :id");
     $sql->bindParam(':id', $id, PDO::PARAM_INT);
     $sql->execute();
 
-    $row = $sql->fetch(PDO::FETCH_ASSOC);
-
+    $corp = $sql->fetch(PDO::FETCH_ASSOC);
+    $sql->bindParam(':email', $email);
+    $sql->bindParam(':zipcode', $zipcode);
+    $sql->bindParam(':owner', $owner);
+    $sql->bindParam(':phone', $phone);
     ?>
-    <form method="get" action="#">
-        Corporation: <input type="text" name="corp" value="<?php  $row['corp'] ?>"><br />
-        Email: <input type="text" name="email" value="<?php  $row['email'] ?>"><br />
-        Zip Code: <input type="text" name="zipcode" value="<?php  $row['zip'] ?>"><br />
-        Owner: <input type="text" name="owner" value="<?php  $row['owner'] ?>"><br />
-        Phone Number: <input type="text" name="phone" value="<?php  $row['phone'] ?>"><br />
+    <form method="post" action="#">
+        Corporation: <input type="text" name="corp" value="<?php  echo $corp['corp']; ?>"><br />
+        Email: <input type="text" name="email" value="<?php  echo $corp['email']; ?>"><br />
+        Zip Code: <input type="text" name="zipcode" value="<?php  echo $corp['zipcode']; ?>"><br />
+        Owner: <input type="text" name="owner" value="<?php  echo $corp['owner']; ?>"><br />
+        Phone Number: <input type="text" name="phone" value="<?php  echo $corp['phone']; ?>"><br />
         <input type="submit" name="action" value="Update" />
-        <a href="/lab3/corpIndex.php">View All</a>
+        <a href="/lab4/Index.php">View All</a>
 
     </form>
 
     <?php
     switch($action){
         case "Update":
-            upRecord($db, $id);
+            upRecord($db, $id, $corp, $email, $zipcode, $owner, $phone);
             break;
     }
 }
-function upRecord($db, $id)
+function upRecord($db, $id, $corp, $email, $zipcode, $owner, $phone)
 {
     if (isPostRequest()) {
 
-
-        $corp = filter_input(INPUT_POST, 'corp', FILTER_SANITIZE_STRING) ?? "";
+$corp = filter_input(INPUT_POST, 'corp', FILTER_SANITIZE_STRING) ?? "";
         // $incorp_dt = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING) ?? "";
         $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING) ?? "";
         $zipcode = filter_input(INPUT_POST, 'zipcode', FILTER_SANITIZE_STRING) ?? "";
         $owner = filter_input(INPUT_POST, 'owner', FILTER_SANITIZE_STRING) ?? "";
         $phone = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_STRING) ?? "";
 
-        $sql = $db->prepare("UPDATE corps set $corp = :corp, $email = :email, $zipcode = :zipcode, $owner = :owner, $phone = :phone where id = :id");
+        $sql = $db->prepare("UPDATE corps set corp = :corp, email = :email, zipcode = :zipcode, owner = :owner, phone = :phone where id = :id");
 
+        $sql->bindParam(':id', $id, PDO::PARAM_INT);
         $sql->bindParam(':corp', $corp);
         $sql->bindParam(':email', $email);
         $sql->bindParam(':zipcode', $zipcode);
         $sql->bindParam(':owner', $owner);
         $sql->bindParam(':phone', $phone);
-
         $sql->execute();
 
-        if ($sql->execute() && $sql->rowCount() > 0) {
+        $result = "Record " . $id . "successfully updated.";
+        echo $result;
+        /*if ($sql->execute() && $sql->rowCount() > 0) {
             $result = 'Record updated';
-        }
+        }*/
     } else {
         $id = filter_input(INPUT_GET, 'id');
         $sql = $db->prepare("SELECT * FROM corps where id = :id");
@@ -137,17 +167,72 @@ function upRecord($db, $id)
 
     }
 }
+
 function isPostRequest() {
     return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST' );
 }
-/*function searchRecord($db){
 
+function searchRecord($db, $col, $term){
+    try {
+        $sql = "SELECT * FROM corps WHERE $col LIKE '%" . $term . "'";
+        $sql = $db->prepare($sql);
+        $sql->execute();
+
+        $corps = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($sql->rowCount() > 0) {
+            $table = "<table>" . PHP_EOL;
+            foreach ($corps as $corp) {
+                $table .= "<tr><td>" . $corp['corp'] . "</td>";
+                $table .= "<td><a href='?action=Read&id=" . $corp['id'] . "'>Read</a>";
+                $table .= "<td><a href='?action=Update&id=" . $corp['id'] . "'>Update</a>";
+                $table .= "<td><a href='?action=Delete&id=" . $corp['id'] . "'>Delete</a>";
+                $table .= "</tr>";
+            }
+            $table .= "</table>" . PHP_EOL;
+            return $table;
+        } else {
+            $table = "There was no data found in the table" . PHP_EOL;
+        }
+    }catch(PDOException $e){
+        die("There was an error searching");
+    }
 
 
 
 }
 
-function sort($db){
+function sortRecords($db, $col, $ASC, $DESC){
 
+    $sql = "SELECT * FROM corps";
+    $sql = $db->prepare($sql);
+    $sql->execute();
+    $corps = $sql->fetchAll(PDO::FETCH_ASSOC);
 
-}*/
+    if($ASC == true){
+        sort($corps, $col);
+        $table = "<table>" . PHP_EOL;
+        foreach ($corps as $corp) {
+            $table .= "<tr><td>" . $corp['corp'] . "</td>";
+            $table .= "<td><a href='?action=Read&id=" . $corp['id'] . "'>Read</a>";
+            $table .= "<td><a href='?action=Update&id=" . $corp['id'] . "'>Update</a>";
+            $table .= "<td><a href='?action=Delete&id=" . $corp['id'] . "'>Delete</a>";
+            $table .= "</tr>";
+        }
+        $table .= "</table>" . PHP_EOL;
+        return $table;
+    }
+    elseif($DESC == true) {
+        rsort($corps, $col);
+        $table = "<table>" . PHP_EOL;
+        foreach ($corps as $corp) {
+            $table .= "<tr><td>" . $corp['corp'] . "</td>";
+            $table .= "<td><a href='?action=Read&id=" . $corp['id'] . "'>Read</a>";
+            $table .= "<td><a href='?action=Update&id=" . $corp['id'] . "'>Update</a>";
+            $table .= "<td><a href='?action=Delete&id=" . $corp['id'] . "'>Delete</a>";
+            $table .= "</tr>";
+        }
+        $table .= "</table>" . PHP_EOL;
+        return $table;
+    }
+}
