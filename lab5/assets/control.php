@@ -27,7 +27,7 @@ switch ($action){
     break;
     case "Reset":
         break;
-    case "search":
+    case "Search":
         if($siteId != NULL){
             echo viewLinks($db, $siteId);
         }

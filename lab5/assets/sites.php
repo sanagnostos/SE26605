@@ -5,7 +5,7 @@
  * Date: 12/8/2017
  * Time: 5:36 PM
  */
-
+$db = dbconn();
 function addWebsite($db, $site){
 
     try{
@@ -47,43 +47,28 @@ function addLink($db, $id, $match){
 
 
 }
-
-function sites($db){
-    try{
+function sites($db)
+{
+    try {
         $sql = $db->prepare("SELECT * FROM sites");
         $sql->execute();
         $sites = $sql->fetchAll(PDO::FETCH_ASSOC);
 
-        if($sql->rowCount()>0){
+        if ($sql->rowCount() > 0) {
             $form = "<form method='get' action='#'>" . PHP_EOL . "<select name='site_id'><option value='default'>Select a Website</option>";
 
-            foreach($sites as $site){
+            foreach ($sites as $site) {
                 $form .= "<option value='" . $site['site_id'] . "'>" . $site['site'] . "</option>";
             }
-            $form .= "</select><input type='submit' name='action' value='search'></form>";
+            $form .= "</select><input type='submit' name='action' value='Search'></form>";
             return $form;
         }
 
-    }catch(PDOException $e){
+    } catch (PDOException $e) {
         die("ERROR");
     }
 }
 
-function viewLinks($db, $id){
-    $sql = $db->prepare("SELECT * FROM sites JOIN sitelinks ON sites.site_id = sitelinks.site_id WHERE sites.site_id = ;id");
-    $sql->bindParam(':id', $id, PDO::PARAM_INT);
-    $sql->execute();
-
-    $sites = $sql->fetchAll(PDO::FETCH_ASSOC);
-    echo "Links from " . $sites[0]['site'] . "from " . $sites[0]["date"];
-
-    $table = "<section><table><tbody>";
-    foreach($sites as $site) {
-        $table .= "<tr><td><a href='" . $site['link'] . "' target='_blank'>" . $site['link'] . "</a></td></tr>";
-    }
-    $table .= "</tbody></table></section>";
-    return $table;
-}
 
 function checkWebsite($db, $site){
     $sql = $db->prepare("SELECT * FROM sites WHERE site=:site");
@@ -98,3 +83,4 @@ function checkWebsite($db, $site){
     }
     return $valid;
 }
+

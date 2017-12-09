@@ -15,7 +15,7 @@
 <body>
 <header>
     <nav>
-        <a href="index.php">Add</a>
-        <a href="views.php">View</a>
+        <a href="index.php">Add a Website</a>
+        <a href="views.php">View Website Links</a>
     </nav>
 </header>

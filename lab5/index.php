@@ -13,6 +13,7 @@ include_once ('assets/header.php');
     <input type="text" placeholder="URL" name="site" value="<?php if (isset($_POST['site'])) echo $_POST['site']; ?>">
     <input type="submit" name="action" value="Add">
 </form>
+**must be properly formatted with an http:// at the beginning etc. etc.
 <?php
 include_once ('assets/footer.php');
 ?>
